@@ -6,7 +6,7 @@ import com.example.routes.ProductDetails
 
 import scala.concurrent.Future
 
-case class ProductInfo(id: Int, price: ProductPrice)
+case class ProductInfo(id: Int, current_price: ProductPrice)
 case class ProductPrice(value: Double, currency_code: String)
 
 trait ProductRepo {
@@ -29,8 +29,8 @@ trait ProductRepoImpl extends ProductRepo {
 
     val statement = QueryBuilder.insertInto(keyspace, T_PRODUCT_INFO)
       .value("id", info.id)
-      .value("value", info.price.value)
-      .value("currency_code", info.price.currency_code)
+      .value("value", info.current_price.value)
+      .value("currency_code", info.current_price.currency_code)
     session.executeAsync(statement).asScala.map(_.wasApplied())
   }
 
@@ -52,8 +52,8 @@ trait ProductRepoImpl extends ProductRepo {
     get(info.id).flatMap {
       case Some(_) =>
         val statement = QueryBuilder.update(keyspace, T_PRODUCT_INFO)
-        statement.`with`(QueryBuilder.set("value",info.price.value))
-        statement.`with`(QueryBuilder.set("currency_code",info.price.currency_code))
+        statement.`with`(QueryBuilder.set("value",info.current_price.value))
+        statement.`with`(QueryBuilder.set("currency_code",info.current_price.currency_code))
           .where(QueryBuilder.eq("id",info.id))
         session.executeAsync(statement).asScala().map(_.wasApplied())
       case None => Future(false)

@@ -1,7 +1,7 @@
 version: "3"
 services:
-  mretail:
-    image: target/mretail:latest
+  myretail:
+    image: target/myretail:latest
     deploy:
       replicas: 1
       resources:

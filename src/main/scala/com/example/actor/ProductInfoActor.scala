@@ -53,8 +53,10 @@ class ProductInfoActor(productRepo: ProductRepo) extends Actor with ActorLogging
       } pipeTo sender
     case GetProductPrice(id) =>
       productRepo.get(id).map {
-        case Some(p) => Success(p)
-        case None => Failure(new RuntimeException("Product not found"))
+        case Some(p) =>
+          Success(p)
+        case None =>
+          Failure(new RuntimeException("Product not found"))
       } pipeTo sender
     case UpdatePrice(info)  =>
       productRepo.update(info).map {

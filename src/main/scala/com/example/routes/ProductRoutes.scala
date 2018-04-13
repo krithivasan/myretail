@@ -4,11 +4,11 @@ import javax.ws.rs.Path
 
 import akka.actor.{ActorRef, ActorSystem}
 import akka.event.Logging
+import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.directives.MethodDirectives.{put, get, post}
-import akka.http.scaladsl.server.directives.PathDirectives.path
+import akka.http.scaladsl.server.directives.MethodDirectives.{get, post, put}
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -44,26 +44,11 @@ trait ProductRoutes extends JsonSupport {
 
 
   lazy val productRoutes: Route =
-   /* pathPrefix("products") {
-      concat(
-        pathEnd {
-          concat(
-            insertProduct
-          )
-        },
-        path(Segment) { id =>
-          concat(
-            getProduct(id) ~
-            updateProduct
-          )
-        }
-      )
-    }~getHello*/
-    insertProduct~updateProduct~getProduct~getHello
+    insertProduct ~ updateProduct ~ getProduct
 
   @Path("/products")
   @ApiOperation(value = "Insert product details to NoSQL data store", notes = "Inserts the product details to cassandra",
-    httpMethod = "POST")
+    httpMethod = "POST", code = 201)
   @ApiImplicitParams(Array(
     new ApiImplicitParam(name = "body", value = "Product id and product price to be inserted", required = true,
       dataTypeClass = classOf[ProductInfo], paramType = "body")
@@ -95,21 +80,23 @@ trait ProductRoutes extends JsonSupport {
   ))
   @ApiResponses(Array(
     new ApiResponse(code = 200, message = "Product details updated"),
-    new ApiResponse(code = 500, message = "Internal server error")
+    new ApiResponse(code = 500, message = "Internal server error"),
+    new ApiResponse(code = 404, message = "Product not found")
   ))
   def updateProduct = {
     put {
-      pathPrefix("products"/ Segment)
-      entity(as[ProductInfo]) { product =>
-        val productUpdated: Future[ProductUpdated] =
-          (productInfoActor ? UpdatePrice(product)).mapTo[ProductUpdated]
-        onComplete(productUpdated) {
-          case Success(performed) =>
-          log.info("Product Updated {}", product.id)
-          complete((StatusCodes.OK))
-          case Failure(ex) =>
-            log.error(s"Error updating Product info ${product.id} {}", ex)
-            complete((StatusCodes.NotFound))
+      pathPrefix("products" / Segment) { pid =>
+        entity(as[ProductInfo]) { product =>
+          val productUpdated: Future[ProductUpdated] =
+            (productInfoActor ? UpdatePrice(product.copy(id = pid.toInt))).mapTo[ProductUpdated]
+          onComplete(productUpdated) {
+            case Success(performed) =>
+              log.info("Product Updated {}", product.id)
+              complete((StatusCodes.OK))
+            case Failure(ex) =>
+              log.error(s"Error updating Product info ${product.id} {}", ex)
+              complete((StatusCodes.NotFound))
+          }
         }
       }
     }
@@ -127,7 +114,7 @@ trait ProductRoutes extends JsonSupport {
     new ApiResponse(code = 200, response = classOf[ProductDetails], message = "Returns the product details")))
   def getProduct: Route = {
     get {
-      pathPrefix("product"/ Segment) { id => {
+      pathPrefix("products"/ Segment) { id => {
         //#retrieve-product-info
         val maybeProduct: Future[ProductInfo] =
           (productInfoActor ? GetProductPrice(id.toInt)).mapTo[ProductInfo]
@@ -137,10 +124,11 @@ trait ProductRoutes extends JsonSupport {
           for {
             info <- maybeProduct
             name <- productName
-          } yield ProductDetails(info.id, name, info.price)
+          } yield ProductDetails(info.id, name, info.current_price)
         onComplete(result) {
           case Success(productDetails) =>
-            complete((StatusCodes.OK, productDetails))
+            println("received product details in routes")
+            complete(ToResponseMarshallable(productDetails))
           case Failure(ex) =>
             log.error(s"Error when retrieving product info $id {}", ex)
             complete((StatusCodes.NotFound, s"product $id not found"))
@@ -148,18 +136,6 @@ trait ProductRoutes extends JsonSupport {
       }
       }
       //#retrieve-user-info
-    }
-  }
-  @Path("/hello/{myname}")
-  @ApiOperation(value = "hello", httpMethod = "GET")
-  @ApiImplicitParams(Array(
-    new ApiImplicitParam(name = "name", required = true, dataType = "string", paramType = "path")
-  ))
-  def getHello= {
-    get {
-      pathPrefix("myname" / Segment) { name =>
-        complete("hello " + name)
-      }
     }
   }
 }

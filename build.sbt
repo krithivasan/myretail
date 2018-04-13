@@ -1,15 +1,18 @@
 import io.ino.sbtpillar.Plugin.PillarKeys._
 import sbt.dsl.enablePlugins
 import sbtassembly.MergeStrategy
+import sbt.Keys._
+import io.gatling.sbt.GatlingPlugin
 
 lazy val akkaHttpVersion = "10.0.11"
 lazy val akkaVersion    = "2.5.11"
 lazy val cassandraDriverV = "3.3.2"
 lazy val akkaSwaggerV = "0.11.2"
 lazy val swaggerScalaV = "1.0.4"
-
+lazy val cassandraUnitV = "3.3.0.2"
 enablePlugins(DockerPlugin)
 enablePlugins(DockerComposePlugin)
+enablePlugins(GatlingPlugin)
 
 lazy val root = (project in file(".")).
   settings(
@@ -30,7 +33,10 @@ lazy val root = (project in file(".")).
       "org.scalatest"     %% "scalatest"            % "3.0.1"         % Test,
       "com.typesafe.play" %% "play-json" % "2.6.0",
       "com.github.swagger-akka-http" %% "swagger-akka-http" % akkaSwaggerV,
-      "io.swagger" % "swagger-scala-module_2.12" % swaggerScalaV
+      "io.swagger" % "swagger-scala-module_2.12" % swaggerScalaV,
+      "org.cassandraunit" % "cassandra-unit" % cassandraUnitV % Test,
+      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % Test,
+      "io.gatling"            % "gatling-test-framework"    % "2.3.0" % Test
     )
 
   )
@@ -77,7 +83,7 @@ imageNames in docker := Seq(
 
 dockerImageCreationTask := docker.value
 composeFile := baseDirectory.value + "/docker/docker-compose.yml"
-composeServiceName := "mretail"
+composeServiceName := "myretail"
 composeContainerPauseBeforeTestSeconds := 30
 
 //********************************************************
