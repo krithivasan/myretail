@@ -1,4 +1,4 @@
-package com.example
+package com.myretail
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -8,11 +8,11 @@ import akka.http.scaladsl.server.Route
 import akka.routing.FromConfig
 import akka.stream.ActorMaterializer
 import com.datastax.driver.core.Session
-import com.example.actor.ProductInfoActor
-import com.example.repo.ProductRepoImpl
-import com.example.routes.ProductRoutes
-import com.example.repo.CassandraConnection
-import com.example.swagger.{Site, SwaggerDocService}
+import com.myretail.actor.ProductInfoActor
+import com.myretail.repo.ProductRepoImpl
+import com.myretail.routes.ProductRoutes
+import com.myretail.repo.CassandraConnection
+import com.myretail.swagger.{Site, SwaggerDocService}
 
 //#main-class
 object QuickstartServer extends App with ProductRoutes with Site {

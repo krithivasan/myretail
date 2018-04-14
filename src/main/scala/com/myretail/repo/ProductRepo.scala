@@ -1,8 +1,8 @@
-package com.example.repo
+package com.myretail.repo
 
 import com.datastax.driver.core.{Row, Session}
 import com.datastax.driver.core.querybuilder.QueryBuilder
-import com.example.routes.ProductDetails
+import com.myretail.routes.ProductDetails
 
 import scala.concurrent.Future
 

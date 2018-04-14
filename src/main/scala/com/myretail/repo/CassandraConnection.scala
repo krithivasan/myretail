@@ -1,9 +1,9 @@
-package com.example.repo
+package com.myretail.repo
 
 import java.net.URI
 
 import com.datastax.driver.core._
-import com.example.util.EnvironmentService
+import com.myretail.util.EnvironmentService
 
 object CassandraConnection {
   private val connectionString = EnvironmentService.getValue("cassandra.config.url")

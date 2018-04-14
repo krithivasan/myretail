@@ -1,4 +1,4 @@
-package com.example
+package com.myretail
 
 //#user-routes-spec
 //#test-top
@@ -7,12 +7,12 @@ import akka.http.scaladsl.marshalling.Marshal
 import akka.http.scaladsl.model.{MessageEntity, _}
 import akka.http.scaladsl.testkit.{RouteTestTimeout, ScalatestRouteTest}
 import com.datastax.driver.core.Session
-import com.example.QuickstartServer.{productRepo, system}
-import com.example.routes.ProductRoutes
+import com.myretail.QuickstartServer.{productRepo, system}
+import com.myretail.routes.ProductRoutes
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{Matchers, WordSpec}
-import com.example.actor.ProductInfoActor
-import com.example.repo.{ProductInfo, ProductPrice, ProductRepoImpl}
+import com.myretail.actor.ProductInfoActor
+import com.myretail.repo.{ProductInfo, ProductPrice, ProductRepoImpl}
 
 import scala.concurrent.duration._
 

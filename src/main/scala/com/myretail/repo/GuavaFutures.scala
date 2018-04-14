@@ -1,4 +1,4 @@
-package com.example.repo
+package com.myretail.repo
 
 import com.google.common.util.concurrent.{ FutureCallback, Futures, ListenableFuture }
 

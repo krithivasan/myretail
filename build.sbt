@@ -17,7 +17,7 @@ enablePlugins(GatlingPlugin)
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
-      organization    := "com.example",
+      organization    := "com.myretail",
       scalaVersion    := "2.12.4"
     )),
     name := "myRetail-REST-API",

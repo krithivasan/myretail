@@ -1,7 +1,7 @@
 version: "3"
 services:
   myretail:
-    image: com.example/myretail-rest-api:latest
+    image: com.myretail/myretail-rest-api:latest
     network_mode: default
     deploy:
       replicas: 1

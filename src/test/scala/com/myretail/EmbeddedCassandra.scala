@@ -1,4 +1,4 @@
-package com.example
+package com.myretail
 
 import com.datastax.driver.core.{Cluster, Session}
 import org.cassandraunit.CQLDataLoader

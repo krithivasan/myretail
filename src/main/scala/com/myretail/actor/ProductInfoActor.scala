@@ -1,11 +1,11 @@
-package com.example.actor
+package com.myretail.actor
 
 //#product-info-actor
 import akka.actor.Status.{ Failure, Success }
 import akka.actor.{ Actor, ActorLogging, Props }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ HttpRequest, HttpResponse, StatusCodes }
-import com.example.repo.{ ProductInfo, ProductRepo }
+import com.myretail.repo.{ ProductInfo, ProductRepo }
 import akka.pattern.pipe
 import akka.stream.ActorMaterializer
 import akka.util.ByteString

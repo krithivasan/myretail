@@ -1,9 +1,9 @@
-package com.example.swagger
+package com.myretail.swagger
 
 import com.github.swagger.akka.SwaggerHttpService
 import com.github.swagger.akka.model.Info
 import io.swagger.models.ExternalDocs
-import com.example.routes.ProductRoutes
+import com.myretail.routes.ProductRoutes
 
 object SwaggerDocService extends SwaggerHttpService {
   override def apiDocsPath: String = "myRetail/api-docs"

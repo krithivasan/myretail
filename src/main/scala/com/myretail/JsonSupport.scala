@@ -1,7 +1,7 @@
-package com.example
+package com.myretail
 
-import com.example.repo.{ ProductInfo, ProductPrice }
-import com.example.routes.ProductDetails
+import com.myretail.repo.{ ProductInfo, ProductPrice }
+import com.myretail.routes.ProductDetails
 
 //#json-support
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport

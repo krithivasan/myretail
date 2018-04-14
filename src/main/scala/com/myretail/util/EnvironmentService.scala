@@ -1,4 +1,4 @@
-package com.example.util
+package com.myretail.util
 
 import com.typesafe.config.ConfigFactory
 

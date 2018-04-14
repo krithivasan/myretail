@@ -1,4 +1,4 @@
-package com.example.routes
+package com.myretail.routes
 
 import javax.ws.rs.Path
 
@@ -14,10 +14,10 @@ import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.pattern.ask
 import akka.util.Timeout
-import com.example.JsonSupport
-import com.example.repo.ProductInfo
-import com.example.actor.ProductInfoActor._
-import com.example.repo.ProductPrice
+import com.myretail.JsonSupport
+import com.myretail.repo.ProductInfo
+import com.myretail.actor.ProductInfoActor._
+import com.myretail.repo.ProductPrice
 import io.swagger.annotations._
 
 import scala.concurrent.Future

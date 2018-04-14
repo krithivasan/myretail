@@ -1,4 +1,4 @@
-package com.example.swagger
+package com.myretail.swagger
 
 import akka.http.scaladsl.server.Directives
 
