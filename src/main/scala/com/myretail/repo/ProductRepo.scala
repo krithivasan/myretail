@@ -15,6 +15,7 @@ trait ProductRepo {
   def update(info: ProductInfo): Future[Boolean]
 }
 
+/*Interface implementations for the get, post and put actions*/
 trait ProductRepoImpl extends ProductRepo {
   import GuavaFutures._
   import scala.concurrent.ExecutionContext.Implicits.global

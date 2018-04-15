@@ -65,4 +65,4 @@ class ProductInfoActor(productRepo: ProductRepo) extends Actor with ActorLogging
       } pipeTo sender
   }
 }
-//#user-registry-actor
+//#product-info-actor

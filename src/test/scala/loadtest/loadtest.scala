@@ -14,12 +14,11 @@ class LoadTest extends Simulation { // 3
     .userAgentHeader("Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0")
   val scn = scenario("BasicSimulation").asLongAs(true) {  // 7
     exec(http("Get Product Info")  // 8
-      //.get(s"/products/${id}")
-        .post("/products")
-        .body(RawFileBody("input.json")).asJSON
-      .check(status.is(201))) // 9
+      .put(s"/products/${id}")
+      .body(RawFileBody("input.json")).asJSON
+      .check(status.is(200))) // 9
   } //.pause(5) } // 10
   setUp( // 11
-    scn.inject(atOnceUsers(1), rampUsers(60) over (5 seconds)) // 12
-  ).protocols(httpConf).maxDuration(1 minutes) // 13
+    scn.inject(atOnceUsers(1), rampUsers(60) over (2 minutes)) // 12
+  ).protocols(httpConf).maxDuration(30 seconds) // 13
 }

@@ -36,7 +36,7 @@ trait ProductRoutes extends JsonSupport {
 
   lazy val log = Logging(system, classOf[ProductRoutes])
 
-  // other dependencies that UserRoutes use
+  // other dependencies that ProductRoutes use
   def productInfoActor: ActorRef
 
   // Required by the `ask` (?) method below
