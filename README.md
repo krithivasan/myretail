@@ -20,8 +20,10 @@ The following is the tech stack that i used for this assignment
 
 ## Testing the application
 
-####Pre-requisites
+#### Pre-requisites
 Install sbt - On a Mac `brew install sbt@1`
+
+Install Docker 
 
 To run the application clone the repository and from the root of the repository run
 `sbt demo` 
@@ -31,7 +33,7 @@ To run the application clone the repository and from the root of the repository 
 Swagger URL is available at `http://localhost:8080/myRetail/swagger
 `
 
-#####POST - Insert a product information with the following json input
+##### POST - Insert a product information with the following json input
 ```json
 {"id":13860428,"current_price":{"value":13.49,"currency_code":"USD"}}
 ```
@@ -65,11 +67,11 @@ Provide the id as "13860428" and the following json body
 ```
 This should respond with a 200 OK and when you get the product information this should return the product information with the updated price
 
-###Unit tests and code coverage report
+### Unit tests and code coverage report
 
 run `sbt coverage test coverageReport`
 
-###Load tests
+### Load tests
 run `sbt gatling:test`
 
 
